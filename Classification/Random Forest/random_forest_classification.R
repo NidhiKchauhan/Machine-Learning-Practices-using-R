@@ -1,4 +1,4 @@
-# Kernel SVM
+# Random Forest Classification
 
 # Importing the dataset
 dataset = read.csv('Social_Network_Ads.csv')
@@ -19,13 +19,13 @@ test_set = subset(dataset, split == FALSE)
 training_set[-3] = scale(training_set[-3])
 test_set[-3] = scale(test_set[-3])
 
-# Fitting Kernel SVM to the Training set
-# install.packages('e1071')
-library(e1071)
-classifier = svm(formula = Purchased ~ .,
-                 data = training_set,
-                 type = 'C-classification',
-                 kernel = 'radial')
+# Fitting Random Forest Classification to the Training set
+install.packages('randomForest')
+library(randomForest)
+set.seed(123)
+classifier = randomForest(x = training_set[-3],
+                          y = training_set$Purchased,
+                          ntree = 500)
 
 # Predicting the Test set results
 y_pred = predict(classifier, newdata = test_set[-3])
@@ -33,3 +33,8 @@ y_pred = predict(classifier, newdata = test_set[-3])
 # Making the Confusion Matrix
 cm = table(test_set[, 3], y_pred)
 cm
+
+
+# Choosing the number of trees
+plot(classifier)
+

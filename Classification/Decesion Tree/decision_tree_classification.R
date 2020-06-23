@@ -1,4 +1,4 @@
-# Kernel SVM
+# Decision Tree Classification
 
 # Importing the dataset
 dataset = read.csv('Social_Network_Ads.csv')
@@ -19,17 +19,20 @@ test_set = subset(dataset, split == FALSE)
 training_set[-3] = scale(training_set[-3])
 test_set[-3] = scale(test_set[-3])
 
-# Fitting Kernel SVM to the Training set
-# install.packages('e1071')
-library(e1071)
-classifier = svm(formula = Purchased ~ .,
-                 data = training_set,
-                 type = 'C-classification',
-                 kernel = 'radial')
+# Fitting Decision Tree Classification to the Training set
+# install.packages('rpart')
+library(rpart)
+classifier = rpart(formula = Purchased ~ .,
+                   data = training_set)
 
 # Predicting the Test set results
-y_pred = predict(classifier, newdata = test_set[-3])
+y_pred = predict(classifier, newdata = test_set[-3], type = 'class')
 
 # Making the Confusion Matrix
 cm = table(test_set[, 3], y_pred)
-cm
+
+
+# Plotting the tree
+plot(classifier)
+text(classifier)
+
