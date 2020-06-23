@@ -30,7 +30,7 @@ y_pred = predict(classifier, newdata = test_set[-3], type = 'class')
 
 # Making the Confusion Matrix
 cm = table(test_set[, 3], y_pred)
-
+cm
 
 # Plotting the tree
 plot(classifier)
